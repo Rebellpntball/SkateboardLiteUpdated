@@ -1,0 +1,6 @@
+//<'Skateboard.pbo' properties via Mikero's dos tools, dll version 9.98>
+prefix=Skateboard;
+Mikero=DePbo.dll.8.35;
+version=22092020;
+//PboType=Arma Addon;
+//</properties>

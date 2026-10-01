@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<modded_inputs>
+    <inputs>
+        <actions>
+			<input name="UASkateboardAheadSpeed" loc="Skateboard Ahead Speed" />
+			<input name="UASkateboardBackSpeed" loc="Skateboard Back Speed" />
+			<input name="UASkateboardRudderLeft" loc="Skateboard Left" />
+			<input name="UASkateboardRudderRight" loc="Skateboard Right" />
+			<input name="UASkateboardRudderCenter" loc="Skateboard Center" />
+        </actions>
+    </inputs>
+    <preset>
+		<input name="UASkateboardAheadSpeed">
+            <btn name="kNumpad8" />
+        </input>
+		<input name="UASkateboardBackSpeed">
+            <btn name="kNumpad2" />
+        </input>
+		<input name="UASkateboardRudderLeft">
+            <btn name="kNumpad4" />
+        </input>
+		<input name="UASkateboardRudderRight">
+            <btn name="kNumpad6" />
+        </input>
+		<input name="UASkateboardRudderCenter">
+            <btn name="kNumpad5" />
+        </input>
+    </preset>
+</modded_inputs>
