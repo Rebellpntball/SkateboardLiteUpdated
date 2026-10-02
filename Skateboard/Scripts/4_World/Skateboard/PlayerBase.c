@@ -10,6 +10,7 @@ modded class PlayerBase
 	int unlinkAttemps;
 	Object linkParent;
 	ActionDismantleSkateboard myActiondismant;
+	float m_SkateLinkCheckTimer;		// standalone lag fix – throttle raycasts
 
 	
 
@@ -47,37 +48,40 @@ modded class PlayerBase
 	}
 	override bool ModCommandHandlerBefore(float pDt, int pCurrentCommandID, bool pCurrentCommandFinished) 
 	{
-		 #ifdef ROADTRIP
-        //GetGame().GetMission().OnEvent(ChatMessageEventTypeID, new ChatMessageEventParams(CCDirect, "", "RoadTrip installed", ""));
-        return super.ModCommandHandlerBefore(pDt, pCurrentCommandID, pCurrentCommandFinished);
-        #endif
+		// Standalone – no RoadTrip dependency
+		// Throttle expensive raycasts (~8 Hz) instead of every frame
 		if (GetGame().IsClient())
 		{
-			Object obj;
-			ScriptInputUserData ctx;
-			shouldLink = NeedLink(obj);
-	
-			if (shouldLink)
+			m_SkateLinkCheckTimer += pDt;
+			if (m_SkateLinkCheckTimer >= 0.12)
 			{
-				if (!isLinked && obj)
+				m_SkateLinkCheckTimer = 0;
+				Object obj;
+				ScriptInputUserData ctx;
+				shouldLink = NeedLink(obj);
+
+				if (shouldLink)
 				{
-					ctx = new ScriptInputUserData;
-					ctx.Write(LINKTOLOCALSPACE_LINK_Skateboard);
-					ctx.Write(obj);
-					ctx.Send();
-					ctx.Reset();
-					LinkPlayer(obj);
-				}
-			} 
-			else
-			{
-				if (isLinked)
+					if (!isLinked && obj)
+					{
+						ctx = new ScriptInputUserData;
+						ctx.Write(LINKTOLOCALSPACE_LINK_Skateboard);
+						ctx.Write(obj);
+						ctx.Send();
+						ctx.Reset();
+						LinkPlayer(obj);
+					}
+				} 
+				else
 				{
-					ctx = new ScriptInputUserData;
-					ctx.Write(LINKTOLOCALSPACE_UNLINK_Skateboard);
-					ctx.Send();
-					ctx.Reset();
-					UnlinkPlayer();
+					if (isLinked)
+					{
+						ctx = new ScriptInputUserData;
+						ctx.Write(LINKTOLOCALSPACE_UNLINK_Skateboard);
+						ctx.Send();
+						ctx.Reset();
+						UnlinkPlayer();
+					}
 				}
 			}
 		}
